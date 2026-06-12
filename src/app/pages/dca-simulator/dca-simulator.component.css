@@ -1,0 +1,15 @@
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+}
+.performance-badge {
+  background-color: #e6fffa;
+  color: #234e52;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.05rem;
+  margin-top: 15px;
+  border: 1px solid #b2f5ea;
+}

@@ -1,0 +1,136 @@
+<div class="calculator-container">
+  <h1>📊 Calculateur Patrimonial Pro</h1>
+  <p class="subtitle">Simulez votre épargne avec prise en compte de la fiscalité française et des frais</p>
+
+  <div class="grid">
+    <div>
+      <app-card title="Paramètres d'épargne">
+        <div class="form-group">
+          <label>Capital Initial (€)</label>
+          <input type="number" [ngModel]="capitalInitial()" (ngModelChange)="capitalInitial.set($event)" />
+        </div>
+        <div class="form-group">
+          <label>Versement Mensuel (€)</label>
+          <input type="number" [ngModel]="versementMensuel()" (ngModelChange)="versementMensuel.set($event)" />
+        </div>
+        <div class="form-group">
+          <label>Rendement annuel estimé (%)</label>
+          <input type="number" step="0.1" [ngModel]="tauxAnnuel()" (ngModelChange)="tauxAnnuel.set($event)" />
+        </div>
+        <div class="form-group">
+          <label>Durée de l'épargne (années)</label>
+          <input type="number" [ngModel]="annees()" (ngModelChange)="annees.set($event)" />
+        </div>
+      </app-card>
+
+      <app-card title="Fiscalité & Frais de gestion 🏦">
+        <div class="form-group">
+          <label>Enveloppe Fiscale (Régime Français)</label>
+          <select [ngModel]="enveloppeFiscale()" (ngModelChange)="enveloppeFiscale.set($event)">
+            <option value="PEA">PEA (Plus de 5 ans : 17.2% de prélèvements sociaux)</option>
+            <option value="CTO_AV">Compte-Titres / Assurance-Vie (Flat Tax de 30%)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Frais de gestion annuels du support (%)</label>
+          <div class="range-container">
+            <input type="range" min="0" max="3" step="0.1" [ngModel]="fraisGestionAnnuel()" (ngModelChange)="fraisGestionAnnuel.set(+$event)" />
+            <span class="range-val">{{ fraisGestionAnnuel() }}% / an</span>
+          </div>
+          <small class="help-text">Ex: ~0.2% pour un ETF sur PEA, ~1.5% pour des OPCVM en banque classique.</small>
+        </div>
+      </app-card>
+
+      <app-card title="Simulateur de Crise de Marché 📉">
+        <div class="form-group toggle-group">
+          <label for="crise-check">Activer les krachs périodiques</label>
+          <input id="crise-check" type="checkbox" [ngModel]="activerCrises()" (ngModelChange)="activerCrises.set($event)" class="checkbox-input" />
+        </div>
+
+        @if (activerCrises()) {
+          <div class="crisis-options">
+            <div class="form-group">
+              <label>Fréquence du Krach</label>
+              <select [ngModel]="frequenceCrise()" (ngModelChange)="frequenceCrise.set(+$event)">
+                <option [value]="3">Tous les 3 ans</option>
+                <option [value]="5">Tous les 5 ans (Moyenne)</option>
+                <option [value]="8">Tous les 8 ans</option>
+                <option [value]="10">Tous les 10 ans</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Intensité du krach</label>
+              <div class="range-container">
+                <input type="range" min="5" max="50" step="5" [ngModel]="intensiteCrise()" (ngModelChange)="intensiteCrise.set($event)" />
+                <span class="range-val">-{{ intensiteCrise() }}%</span>
+              </div>
+            </div>
+          </div>
+        }
+      </app-card>
+    </div>
+
+    <div>
+      <app-card title="Votre Bilan Patrimonial">
+        <div class="result-split">
+          <div class="result-box net-total">
+            <span class="label">💼 Capital Final NET (Après Impôts)</span>
+            <span class="value">{{ resultat().capitalFinalNet | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+          </div>
+
+          <div class="result-box total">
+            <span class="label">Capital Final Brut (Avant Impôts)</span>
+            <span class="value">{{ resultat().capitalFinalBrut | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+          </div>
+        </div>
+        
+        <div class="result-box success">
+          <span class="label">Plus-value totale générée (Brute)</span>
+          <span class="value success">+{{ resultat().plusValueBrute | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+        </div>
+
+        <div class="result-split">
+          <div class="result-box">
+            <span class="label">Total Investi</span>
+            <span class="value secondary">{{ resultat().totalInvesti | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+          </div>
+          
+          <div class="result-box danger">
+            <span class="label">Impôts à la sortie</span>
+            <span class="value tax">-{{ resultat().impotEstime | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+          </div>
+        </div>
+      </app-card>
+
+      <app-card title="Progression annuelle (Frais inclus)">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Année</th>
+                <th>Capital (Brut)</th>
+                <th>Événement</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of resultat().historique; track item.annee) {
+                <tr [class.crash-row]="activerCrises() && (item.annee % frequenceCrise() === 0)">
+                  <td>An {{ item.annee }}</td>
+                  <td><strong>{{ item.capital | currency:'EUR':'symbol':'1.0-0':'fr' }}</strong></td>
+                  <td>
+                    @if (activerCrises() && (item.annee % frequenceCrise() === 0)) {
+                      <span class="badge crash">💥 Krach</span>
+                    } @else {
+                      <span class="badge normal">🟢 Standard</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </app-card>
+    </div>
+  </div>
+</div>

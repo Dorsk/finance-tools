@@ -1,0 +1,74 @@
+<div class="calculator-container">
+  <h1>📈 Simulateur DCA Long Terme (1990 - 2026)</h1>
+  <p class="subtitle">Analyse d'investissement basée sur l'historique réel du S&P 500</p>
+
+  <div class="grid">
+    <div>
+      <app-card title="Stratégie du DCA">
+        <div class="form-group">
+          <label>Choisir la date précise de début du DCA</label>
+          <input type="date" 
+                 min="1990-01-01" 
+                 max="2026-06-01" 
+                 [ngModel]="dateDebut()" 
+                 (ngModelChange)="dateDebut.set($event)" />
+          <small class="help-text">Données disponibles entre Janvier 1990 et Mi-2026.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Somme de départ / Capital Initial (€)</label>
+          <input type="number" step="500" [ngModel]="capitalInitial()" (ngModelChange)="capitalInitial.set($event)" />
+          <small class="help-text">Montant investi en une seule fois le premier jour.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Versement récurrent supplémentaire (€)</label>
+          <input type="number" step="50" [ngModel]="sommeMensuelle()" (ngModelChange)="sommeMensuelle.set($event)" />
+        </div>
+
+        <div class="form-group">
+          <label>Fréquence des versements récurrents</label>
+          <select [ngModel]="frequence()" (ngModelChange)="frequence.set($event)">
+            <option value="2_MOIS">2 fois par mois</option>
+            <option value="1_MOIS">1 fois par mois (Standard)</option>
+            <option value="3_MOIS">1 fois tous les 3 mois (Trimestriel)</option>
+          </select>
+        </div>
+      </app-card>
+      <app-card title="Bilan de la stratégie">
+        <div class="result-box total">
+          <span class="label">Valeur du portefeuille (2026)</span>
+          <span class="value">{{ simulation().capitalFinal | currency:'EUR':'symbol':'1.0-0':'fr' }}</span>
+        </div>
+
+        <div class="result-split">
+          <div class="result-box">
+            <span class="label">Total versé</span>
+            <span class="value secondary">{{ simulation().totalInvesti | currency:'EUR':'symbol':'1.0-0':'fr' }}</span>
+          </div>
+          <div class="result-box success">
+            <span class="label">Plus-values nettes</span>
+            <span class="value success">+{{ simulation().plusValue | currency:'EUR':'symbol':'1.0-0':'fr' }}</span>
+          </div>
+        </div>
+
+        <div class="performance-badge">
+          Gain total historique : <strong>+{{ simulation().performanceGlobale }}%</strong>
+        </div>
+      </app-card>
+    </div>
+
+    <div>
+      <app-card title="Graphique de Performance">
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="chartData"
+            [options]="chartOptions"
+            [type]="'line'">
+          </canvas>
+        </div>
+      </app-card>
+    </div>
+    
+  </div>
+</div>

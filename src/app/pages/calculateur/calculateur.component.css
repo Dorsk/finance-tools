@@ -1,0 +1,38 @@
+.calculator-container { max-width: 1200px; margin: 0 auto; }
+h1 { color: #2c3e50; margin-bottom: 5px; font-size: 2rem; }
+.subtitle { color: #7f8c8d; margin-bottom: 40px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568; }
+input[type="number"], select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; box-sizing: border-box; background: white; }
+.help-text { color: #718096; font-size: 0.8rem; display: block; margin-top: 5px; }
+.toggle-group { display: flex; justify-content: space-between; align-items: center; background: #f7fafc; padding: 10px; border-radius: 8px; }
+.toggle-group label { margin-bottom: 0; cursor: pointer; }
+.checkbox-input { width: 20px; height: 20px; cursor: pointer; }
+.crisis-options { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #cbd5e0; }
+.range-container { display: flex; align-items: center; gap: 15px; }
+.range-container input { flex: 1; cursor: pointer; }
+.range-val { font-weight: bold; color: #2b6cb0; white-space: nowrap; }
+
+/* Résultats */
+.result-box { background: #f7fafc; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #cbd5e0; }
+.result-box.net-total { background: #f0fff4; border-left-color: #38a169; border-width: 6px; }
+.result-box.net-total .value { color: #276749; font-size: 1.9rem; }
+.result-box.total { background: #ebf8ff; border-left-color: #3182ce; }
+.result-box.success { background: #e6fffa; border-left-color: #2f855a; }
+.result-box.danger { background: #fff5f5; border-left-color: #e53e3e; }
+.label { display: block; font-size: 0.85rem; color: #718096; text-transform: uppercase; margin-bottom: 5px; }
+.value { font-size: 1.5rem; font-weight: bold; color: #2d3748; }
+.value.secondary { color: #4a5568; }
+.value.tax { color: #e53e3e; }
+.result-split { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+/* Tableau */
+.table-wrapper { max-height: 250px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; text-align: left; background: white; }
+th, td { padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 0.95rem; }
+th { background: #f7fafc; font-weight: 600; color: #4a5568; position: sticky; top: 0; }
+tr.crash-row { background-color: #fff5f5; }
+.badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+.badge.normal { background: #edf2f7; color: #4a5568; }
+.badge.crash { background: #fed7d7; color: #9b2c2c; }

@@ -1,0 +1,53 @@
+<div class="calculator-container">
+  <h1>📊 Calculateur d'Intérêts Composés</h1>
+  <p class="subtitle">Simulez la croissance de votre épargne au fil des années</p>
+
+  <div class="grid">
+    <!-- Formulaire des paramètres -->
+    <div class="card form-card">
+      <h2>Paramètres</h2>
+      
+      <div class="form-group">
+        <label for="initial">Capital Initial (€)</label>
+        <input type="number" id="initial" [ngModel]="capitalInitial()" (ngModelChange)="capitalInitial.set($event)" />
+      </div>
+
+      <div class="form-group">
+        <label for="mensuel">Versement Mensuel (€)</label>
+        <input type="number" id="mensuel" [ngModel]="versementMensuel()" (ngModelChange)="versementMensuel.set($event)" />
+      </div>
+
+      <div class="form-group">
+        <label for="taux">Taux d'intérêt annuel (%)</label>
+        <input type="number" id="taux" step="0.1" [ngModel]="tauxAnnuel()" (ngModelChange)="tauxAnnuel.set($event)" />
+      </div>
+
+      <div class="form-group">
+        <label for="annees">Durée de l'épargne (années)</label>
+        <input type="number" id="annees" [ngModel]="annees()" (ngModelChange)="annees.set($event)" />
+      </div>
+    </div>
+
+    <!-- Zone de Résultats -->
+    <div class="card results-card">
+      <h2>Vos Résultats après {{ annees() }} ans</h2>
+      
+      <div class="result-box total">
+        <span class="label">Capital Final Estimé</span>
+        <span class="value">{{ resultat().capitalFinal | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+      </div>
+
+      <div class="result-split">
+        <div class="result-box">
+          <span class="label">Total Investi (Vos versements)</span>
+          <span class="value secondary">{{ resultat().totalInvesti | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+        </div>
+        
+        <div class="result-box">
+          <span class="label">Intérêts Totaux Générés</span>
+          <span class="value success">+ {{ resultat().interetsGagnes | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
