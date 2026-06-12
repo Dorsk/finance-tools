@@ -1,6 +1,6 @@
 <div class="calculator-container">
-  <h1>📊 Calculateur Patrimonial Pro</h1>
-  <p class="subtitle">Simulez votre épargne avec prise en compte de la fiscalité française et des frais</p>
+  <h1>📊 Simulateur d'intérêts composés</h1>
+  <p class="subtitle">Simulez votre épargne avec la prise en compte de la fiscalité française, des Frais de gestion et baisses du marché (krach)</p>
 
   <div class="grid">
     <div>
@@ -92,12 +92,12 @@
 
         <div class="result-split">
           <div class="result-box">
-            <span class="label">Total Investi</span>
+            <span class="label">Total versé</span>
             <span class="value secondary">{{ resultat().totalInvesti | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
           </div>
           
           <div class="result-box danger">
-            <span class="label">Impôts à la sortie</span>
+            <span class="label">Impôts sur plus-value</span>
             <span class="value tax">-{{ resultat().impotEstime | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
           </div>
         </div>
