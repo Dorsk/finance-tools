@@ -1,8 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router, NavigationEnd, RouterOutlet, RouterLink,  } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
-declare const gtag: Function;
 
 @Component({
   selector: 'app-home',
@@ -46,20 +44,4 @@ declare const gtag: Function;
     .btn { background: #3182ce; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
   `]
 })
-export class HomeComponent {
-  private router = inject(Router);
-  
-    ngOnInit() {
-      this.router.events.pipe(
-        filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-      ).subscribe((event: NavigationEnd) => {
-        if (typeof gtag !== 'undefined') {
-          // Envoie la page réelle à ton compteur G-TKW0HC45GC
-          gtag('event', 'page_view', {
-            page_path: event.urlAfterRedirects,
-            page_title: document.title
-          });
-        }
-      });
-    }
-}
+export class HomeComponent {}

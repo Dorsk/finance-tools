@@ -1,8 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router, NavigationEnd, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { filter } from 'rxjs/operators';
-
-declare const gtag: Function;
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -35,20 +32,4 @@ declare const gtag: Function;
   `]
 })
 
-export class AppComponent implements OnInit {
-  private router = inject(Router);
-
-  ngOnInit() {
-    this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      if (typeof gtag !== 'undefined') {
-        // Envoie la page réelle à ton compteur G-TKW0HC45GC
-        gtag('event', 'page_view', {
-          page_path: event.urlAfterRedirects,
-          page_title: document.title
-        });
-      }
-    });
-  }
-}
+export class AppComponent {}
