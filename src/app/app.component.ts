@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, NavigationEnd, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+declare const gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -31,4 +34,21 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     .main-content { padding: 40px 20px; min-height: calc(100vh - 70px); box-sizing: border-box; }
   `]
 })
-export class AppComponent {}
+
+export class AppComponent implements OnInit {
+  private router = inject(Router);
+
+  ngOnInit() {
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if (typeof gtag !== 'undefined') {
+        // Envoie la page réelle à ton compteur G-TKW0HC45GC
+        gtag('event', 'page_view', {
+          page_path: event.urlAfterRedirects,
+          page_title: document.title
+        });
+      }
+    });
+  }
+}

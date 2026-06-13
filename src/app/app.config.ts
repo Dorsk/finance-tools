@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection, LOCALE_ID } from '@angular/core';
-import { provideRouter, Routes } from '@angular/router'; // <-- Doit être importé
+import { provideRouter, Routes } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import localeFr from '@angular/common/locales/fr';
