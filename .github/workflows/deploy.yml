@@ -33,12 +33,12 @@ jobs:
 
       - name: Build Angular
         run: |
-          npm run build -- --base-href "/finance-tools"
+          npm run build --base-href "/finance-tools/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/finance-tools/browser
+          path: dist/finance-tools
 
   deploy:
     environment:
